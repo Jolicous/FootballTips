@@ -2,7 +2,7 @@
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">&copy; ICT Berufsbildungcenter AG 2016</span>
+        <span class="text-muted">&copy; Football Tips 2019</span>
       </div>
     </footer>
 
