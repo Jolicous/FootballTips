@@ -1,6 +1,7 @@
+      </div>
     </main>
 
-    <footer class="footer">
+    <footer class="footer bg-dark">
       <div class="container">
         <span class="text-muted">&copy; Football Tips 2019</span>
       </div>
