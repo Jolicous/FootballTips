@@ -1,4 +1,8 @@
-﻿DROP TABLE IF EXISTS user;
+﻿USE footballtips;
+
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS league;
+
 CREATE TABLE  user (
   id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
   firstName VARCHAR(64)  NOT NULL,
@@ -10,3 +14,13 @@ CREATE TABLE  user (
 
 INSERT INTO user (firstName, lastName, email, password) VALUES ('Ramon',  'Binz',  'ramon.binz@bbcag.ch',   sha2('ramon', 256));
 INSERT INTO user (firstName, lastName, email, password) VALUES ('Samuel', 'Wicky', 'samuel.wicky@bbcag.ch', sha2('samuel', 256));
+
+CREATE TABLE league (
+  id      INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  name    VARCHAR(64)   NOT NULL,
+  kürzel  VARCHAR(5)    NOT NULL,
+  img_src VARCHAR(64)   NOT NULL,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO league (name, kürzel, img_src) VALUES ('Premier League', 'ENG', '/images/pl_logo.png');

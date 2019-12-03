@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DefaultRepository;
 use App\View\View;
 
 /**
@@ -37,12 +38,14 @@ class DefaultController
      */
     public function index()
     {
+        $defaultRepository = new DefaultRepository();
         // In diesem Fall möchten wir dem Benutzer die View mit dem Namen
         //   "default_index" rendern. Wie das genau funktioniert, ist in der
         //   View Klasse beschrieben.
         $view = new View('default/index');
-        $view->title = 'Startseite';
-        $view->heading = 'Startseite';
+        $view->title = 'Football Tips';
+        $view->heading = 'Football Tips';
+        $view->leagues = $defaultRepository->readAll();
         $view->display();
     }
 }
