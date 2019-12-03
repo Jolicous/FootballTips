@@ -10,7 +10,7 @@
 
     <title><?= $title; ?> | Football Tips</title>
   </head>
-  <body>
+  <body style="background-color: #cccccc;">
 
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -36,3 +36,4 @@
 
     <main class="container">
       <h1><?= $heading; ?></h1>
+      <div style="background-color: #ffffff; padding: 2% 2% 0 2%">
