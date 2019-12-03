@@ -21,7 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/">Meine Tipps</a>
+              <a class="nav-link" href="/mytips">Meine Tipps</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/bestlist">Bestenliste</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/user">Benutzer</a>
