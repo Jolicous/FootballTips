@@ -33,9 +33,9 @@ class UserRepository extends Repository
      */
     public function create($firstName, $lastName, $email, $password)
     {
-        $password = sha1($password);
+   
 
-        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password) VALUES (?, ?, ?, sha2(?, 256))";
 
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('ssss', $firstName, $lastName, $email, $password);
@@ -46,4 +46,26 @@ class UserRepository extends Repository
 
         return $statement->insert_id;
     }
+
+    public function loginCheck($email, $password) {
+        $query = "SELECT id, email, password FROM user WHERE email = ? AND password = sha2(?, 256)";
+        $email = $_POST ['email'];
+        $password = $_POST ['password'];
+
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param("ss", $email, $password);
+
+        $statement->execute();
+        $result = $statement->get_result();
+
+        if ($result->num_rows == 1) {
+	        $row = $result->fetch_object();
+	        $_SESSION['email'] = $row->email;
+	        $_SESSION['loggedin'] = true;
+	        header('Location: /');
+        } else {
+	        echo "Permission denied";
+        }
+    }
 }
+?>

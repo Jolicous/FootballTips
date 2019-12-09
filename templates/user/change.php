@@ -1,8 +1,8 @@
 <div class="row">
-	<form action="/user/doCreate" method="post" class="col-12 form-padding">
+	<form action="/user/doChange" method="post" class="col-12 form-padding">
 		<div class="form-group">
 		  <label for="fname">Vorname</label>
-	  	<input id="fname" name="fname" type="text" class="form-control">
+	  	<input id="fname" name="fname" type="text" class="form-control" value= "$_SESSION ['firstname']"> 
 		</div>
 		<div class="form-group">
 		  <label for="lname">Nachname</label>
@@ -16,6 +16,6 @@
 			<label class="control-label" for="password">Passwort</label>
 			<input id="password" name="password" type="password" class="form-control">
 		</div>
-		<button type="submit" name="send" class="btn btn-primary float-right">Registrieren</button>
+		<button type="submit" name="send" class="btn btn-primary float-right">Ändern</button>
 	</form>
 </div>
