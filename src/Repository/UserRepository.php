@@ -33,12 +33,10 @@ class UserRepository extends Repository
      */
     public function create($firstName, $lastName, $email, $password)
     {
-        $password = sha1($password);
-
-        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
 
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ssss', $firstName, $lastName, $email, $password);
+        $statement->bind_param('ssssi', $firstName, $lastName, $email, $password, 0);
 
         if (!$statement->execute()) {
             throw new Exception($statement->error);
@@ -47,6 +45,26 @@ class UserRepository extends Repository
         return $statement->insert_id;
     }
 
+    public function loginCheck($email, $password) {
+        $query = "SELECT id, email, password FROM user WHERE email = ? AND password = sha2(?, 256)";
+        $email = $_POST ['email'];
+        $password = $_POST ['password'];
+
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param("ss", $email, $password);
+
+        $statement->execute();
+        $result = $statement->get_result();
+
+        if ($result->num_rows == 1) {
+	        $row = $result->fetch_object();
+	        $_SESSION['email'] = $row->email;
+	        $_SESSION['loggedin'] = true;
+	        header('Location: /');
+        } else {
+	        echo "Permission denied";
+        }
+    }
     public function readTop20(){
         $query = "SELECT * FROM {$this->tableName} ORDER BY punkte DESC LIMIT 0, 20";
 
@@ -67,3 +85,4 @@ class UserRepository extends Repository
         return $rows;
     }
 }
+?>

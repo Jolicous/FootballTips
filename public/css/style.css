@@ -24,3 +24,11 @@ body > .container {
   padding-right: 15px;
   padding-left: 15px;
 }
+.form-padding {
+  padding-bottom: 2%;
+}
+
+.button-margin {
+  margin-top: 2%;
+}
+

@@ -1,19 +1,46 @@
-<article class="hreview open special">
-	<?php if (empty($users)): ?>
-		<div class="dhd">
-			<h2 class="item title">Hoopla! Keine User gefunden.</h2>
+<div class="row">
+	
+	<?php
+	if (isset ( $_SESSION ['loggedin'] ) && $_SESSION ['loggedin'] == true) {
+		echo "<p>You are logged as " . $_SESSION ['user'] ['email'] . "</p>";
+	} else {
+		
+		?>
+		
+		<form class="col-12 form-padding" method="post" action="/user/doLogin">
+			<label for="email">E-Mail</label>
+	  		<input id="email" name="email" type="text" class="form-control" required autofocus>
+				
+			
+			<label class="control-label" for="password">Passwort</label>
+			<input id="password" name="password" type="password" class="form-control" required>
+				
+		<button type="submit" name="send" class="btn btn-primary float-right button-margin">Anmelden</button>
+		</form>
+		
+		
+		<?php
+	}
+	?>
+	</div>
+<div class="row">	
+	<form action="/user/doCreate" method="post" class="col-12 form-padding">
+		<div class="form-group">
+		  <label for="fname">Vorname</label>
+	  	<input id="fname" name="fname" type="text" class="form-control">
 		</div>
-	<?php else: ?>
-		<?php foreach ($users as $user): ?>
-			<div class="panel panel-default">
-				<div class="panel-heading"><?= $user->firstName; ?> <?= $user->lastName; ?></div>
-				<div class="panel-body">
-					<p class="description">In der Datenbank existiert ein User mit dem Namen <?= $user->firstName; ?> <?= $user->lastName; ?>. Dieser hat die EMail-Adresse: <a href="mailto:<?= $user->email; ?>"><?= $user->email; ?></a></p>
-					<p>
-						<a title="Löschen" href="/user/delete?id=<?= $user->id; ?>">Löschen</a>
-					</p>
-				</div>
-			</div>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</article>
+		<div class="form-group">
+		  <label for="lname">Nachname</label>
+	  	<input id="lname" name="lname" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+		  <label for="email">E-Mail</label>
+	  	<input id="email" name="email" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="password">Passwort</label>
+			<input id="password" name="password" type="password" class="form-control">
+		</div>
+		<button type="submit" name="send" class="btn btn-primary float-right">Registrieren</button>
+	</form>
+</div>
