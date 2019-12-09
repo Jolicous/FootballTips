@@ -14,7 +14,7 @@ class UserController
     {
         $userRepository = new UserRepository();
         
-        if ($_SESSION['loggedin'] == true) {
+        if (isset ( $_SESSION ['loggedin'] ) && $_SESSION ['loggedin'] == true) {
             $view = new View('user/change');
             $view->title = 'Bearbeiten';
             $view->heading = 'Bearbeiten';
@@ -41,6 +41,7 @@ class UserController
 
             $userRepository = new UserRepository();
             $userRepository->create($firstName, $lastName, $email, $password);
+        
         }
 
         // Anfrage an die URI /user weiterleiten (HTTP 302)

@@ -33,12 +33,10 @@ class UserRepository extends Repository
      */
     public function create($firstName, $lastName, $email, $password)
     {
-   
-
-        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password) VALUES (?, ?, ?, sha2(?, 256))";
+        $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
 
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ssss', $firstName, $lastName, $email, $password);
+        $statement->bind_param('ssssi', $firstName, $lastName, $email, $password, 0);
 
         if (!$statement->execute()) {
             throw new Exception($statement->error);
