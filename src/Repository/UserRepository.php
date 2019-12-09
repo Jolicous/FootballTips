@@ -46,4 +46,24 @@ class UserRepository extends Repository
 
         return $statement->insert_id;
     }
+
+    public function readTop20(){
+        $query = "SELECT * FROM {$this->tableName} ORDER BY punkte DESC LIMIT 0, 20";
+
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->execute();
+
+        $result = $statement->get_result();
+        if (!$result) {
+            throw new Exception($statement->error);
+        }
+
+        // Datensätze aus dem Resultat holen und in das Array $rows speichern
+        $rows = array();
+        while ($row = $result->fetch_object()) {
+            $rows[] = $row;
+        }
+
+        return $rows;
+    }
 }
