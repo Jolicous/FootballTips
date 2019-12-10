@@ -65,6 +65,7 @@ class UserRepository extends Repository
 	        echo "Permission denied";
         }
     }
+    
     public function readTop20(){
         $query = "SELECT * FROM {$this->tableName} ORDER BY punkte DESC LIMIT 0, 20";
 

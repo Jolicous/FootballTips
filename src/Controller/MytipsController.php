@@ -12,20 +12,42 @@ class MyTipsController
 
     public function index()
     {
+        $view = new View('mytips/index');
+        $this->loadTips($view);
+        $view->title = 'Meine Tipps';
+        $view->heading = 'Meine Tipps';
+        $view->display();
+    }
+
+    public function savetips(){
         $mytipsRepository = new MytipsRepository();
-        $encounterRepository = new EncounterRepository();
+
+        $view = new View('mytips/index');
+        $this->loadTips($view);
+        foreach($view->tips as $tip){
+            $mytipsRepository->updateById($tip->id, $_POST["homegoals_$tip->id"], $_POST["awaygoals_$tip->id"]);
+        }
+        $this->loadTips($view);
+        $view->title = 'Meine Tipps';
+        $view->heading = 'Meine Tipps';
+        $view->display();
+    }
+
+    public function deleteEntry(){
+        $mytipsRepository = new MytipsRepository();
 
         $view = new View('mytips/index');
         $view->title = 'Meine Tipps';
         $view->heading = 'Meine Tipps';
-        $tips = $mytipsRepository->getTipsByUserId(1);
-        $tips_encounters = array();
-        if(isset($tips)){
-            for($i = 0; $i < count($tips); $i++){
-                array_push($tips_encounters, array($tips[$i], $encounterRepository->readById($tips[$i]->begegnung_id)));
-            }
-        }
-        $view->tips = $tips_encounters;
+        $this->loadTips($view);
+        $mytipsRepository->deleteById($view->tips[$_GET['index']]->id); 
+        $this->loadTips($view);    
         $view->display();
+    }
+
+    private function loadTips($view){
+        $mytipsRepository = new MytipsRepository();
+
+        $view->tips = $mytipsRepository->getTipsByUserId(1);
     }
 }

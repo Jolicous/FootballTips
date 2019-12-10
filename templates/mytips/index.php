@@ -1,21 +1,26 @@
-<form method="get" action="/mytips/savetips">
+
+<form method="post" action="/mytips/savetips">
+<?php $i = 0 ?>
 <?php foreach ($tips as $tip): ?>
     <div class="row">
         <div class="col-4">
-            <p>Manchester United</p>
+            <p><?=$tip->hometeam;?></p>
         </div>
         <div class="col-2">
-            <input name="homegoals" style="width: 45%" type="number"/>
-            <a> : </a>
-            <input name="awaygoals" style="width: 45%" type="number"/>
+            <input name="homegoals_<?=$tip->id;?>" style="width: 45%" type="number" value="<?=$tip->homegoals;?>"/>
+            <span> : </span>
+            <input name="awaygoals_<?=$tip->id;?>" style="width: 45%" type="number" value="<?=$tip->awaygoals;?>"/>
         </div>
         <div class="col-5">
-            <p>Manchester City</p>
+            <p><?=$tip->awayteam;?></p>
         </div>
         <div class="col-1">
-            <img style="width: 30px; float: right" src="/images/delete.png" alt="delete">
+            <a href="/mytips/deleteEntry?index=<?=$i;?>">
+                <img style="width: 30px; float: right" src="/images/delete.png" alt="delete">
+            </a>
         </div>
     </div>
+<?php $i++ ?>
 <?php endforeach; ?>
 <input style="margin-bottom: 2%" value="Tipps bestätigen" type="submit"/>
 </form>
