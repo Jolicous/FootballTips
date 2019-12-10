@@ -33,16 +33,26 @@ class UserRepository extends Repository
      */
     public function create($firstName, $lastName, $email, $password)
     {
+        $resetPoints = 0;
         $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
+        $emailCheck = "SELECT * FROM user WHERE email = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($emailCheck);
+        $statement->bind_param("s", $email);
+        $statement->execute();
+        $result = $statement->get_result();
 
-        $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ssssi', $firstName, $lastName, $email, $password, 0);
+        $res = mysqli_query(ConnectionHandler::getConnection(), $result);
+        if(mysqli_num_rows($res) > 0) {
+            echo "sladfj";
+        } else {
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param('ssssi', $firstName, $lastName, $email, $password, $resetPoints);
 
-        if (!$statement->execute()) {
-            throw new Exception($statement->error);
+            if (!$statement->execute()) {
+             throw new Exception($statement->error);
+            }
+            return $statement->insert_id;
         }
-
-        return $statement->insert_id;
     }
 
     public function loginCheck($email, $password) {
@@ -62,9 +72,21 @@ class UserRepository extends Repository
 	        $_SESSION['loggedin'] = true;
 	        header('Location: /');
         } else {
-	        echo "Permission denied";
+	        echo '<script language="javascript">';
+            echo 'alert("E-Mail oder Passwort ist falsch.")';
+            echo '</script>';
+            
         }
     }
+
+    public function logout() {
+        session_start ();
+        unset($_SESSION['user']);
+        unset($_SESSION ['loggedin']);
+        session_destroy();
+        echo "You are logged out";
+    }
+
     
     public function readTop20(){
         $query = "SELECT * FROM {$this->tableName} ORDER BY punkte DESC LIMIT 0, 20";

@@ -12,9 +12,9 @@ class UserController
 {
     public function index()
     {
+        session_start ();
         $userRepository = new UserRepository();
-        
-        if (isset ( $_SESSION ['loggedin'] ) && $_SESSION ['loggedin'] == true) {
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
             $view = new View('user/change');
             $view->title = 'Bearbeiten';
             $view->heading = 'Bearbeiten';
@@ -58,6 +58,11 @@ class UserController
             $userRepository->loginCheck($email, $password);
         }
         
+    }
+
+    public function doLogout() {
+        $userRepository = new UserRepository();
+        $userRepository->logout();
     }
 
     public function delete()
