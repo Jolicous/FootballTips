@@ -59,10 +59,10 @@ class UserRepository extends Repository
         }
     }
 
-    public function change() {
+    public function change($id, $firstName, $lastName, $email, $password) {
         $query = "UPDATE user SET firstname=?, lastname=?, email=?, password=sha2(?, 256) where id=?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param("ssss", $firstName, $lastName, $email, $password);
+        $statement->bind_param("ssssi", $firstName, $lastName, $email, $password, $id);
 
         if (!$statement->execute()) {
             throw new Exception($statement->error);

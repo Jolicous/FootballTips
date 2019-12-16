@@ -70,19 +70,17 @@ class UserController
         session_start();
         if (isset($_SESSION['id']) && isset($_POST['id']) && $_SESSION['id'] == $_POST['id'])
         {
-            $id = $_POST['id'];
-            $userRepository = new UserRepository();
-            $userRepository->getUserInfosById($id);
             if (isset($_POST['change'])) {
+                $id = $_POST['id'];
                 $firstName = $_POST['fname'];
                 $lastName = $_POST['lname'];
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 
                 $userRepository = new UserRepository();
-                $userRepository->change($firstName, $lastName, $email, $password);
+                $userRepository->change($id, $firstName, $lastName, $email, $password);
             }
-
+            header('Location: /user');
         }
             $this->doLogout();
         
