@@ -9,6 +9,7 @@ use App\View\View;
 
 class BestlistController
 {
+    //prepares the view
     public function index()
     {
         session_start();
@@ -27,6 +28,7 @@ class BestlistController
         }
     }
 
+    //Calculates points from a user
     private function calculateUserPoints(){
         $mytipsRepository = new MytipsRepository();
         $encounterRepository = new EncounterRepository();

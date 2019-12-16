@@ -11,6 +11,7 @@ use App\View\View;
 class MyTipsController
 {
 
+    //prepares the view
     public function index()
     {
         session_start();
@@ -28,6 +29,7 @@ class MyTipsController
         }
     }
 
+    //saves the tips from the user
     public function savetips(){
         $mytipsRepository = new MytipsRepository();
 
@@ -42,6 +44,7 @@ class MyTipsController
         $view->display();
     }
 
+    //deletes the entry
     public function deleteEntry(){
         $mytipsRepository = new MytipsRepository();
 
@@ -53,6 +56,7 @@ class MyTipsController
         $view->display();
     }
 
+    //loads all tips from the user
     private function loadTips($view){
         session_start();
         $mytipsRepository = new MytipsRepository();
