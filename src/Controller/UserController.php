@@ -13,7 +13,6 @@ class UserController
     public function index()
     {
         session_start ();
-        print_r($_SESSION);
         $userRepository = new UserRepository();
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
             $view = new View('user/change');
