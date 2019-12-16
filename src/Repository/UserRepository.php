@@ -14,26 +14,20 @@ class UserRepository extends Repository
     public function create($firstName, $lastName, $email, $password)
     {
         $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
-        $emailCheck = "SELECT * FROM user WHERE email = '$email'";
-        $res = mysqli_query(ConnectionHandler::getConnection(), $emailCheck);
-        if(mysqli_num_rows($res) > 0) {
-            echo '<script language="javascript">';
-            echo 'if(!alert("Diese Email wird schon verwendet!")){window.location.href ="/user";}';
-            echo '</script>'; 
-        } else {
-            $points = 0;
-            $statement = ConnectionHandler::getConnection();
-            $escapedFirstName = $statement->escape_string($firstName);
-            $escapedLastName = $statement->escape_string($lastName);
-            $escapedEmail = $statement->escape_string($email);
-            $statement = $statement->prepare($query);
-            $statement->bind_param('ssssi', $escapedFirstName, $escapedLastName, $escapedEmail, $password, $points);
+        $points = 0;
+        $statement = ConnectionHandler::getConnection();
+        $escapedFirstName = $statement->escape_string($firstName);
+        $escapedLastName = $statement->escape_string($lastName);
+        $escapedEmail = $statement->escape_string($email);
+        $statement = $statement->prepare($query);
+        $statement->bind_param('ssssi', $escapedFirstName, $escapedLastName, $escapedEmail, $password, $points);
 
-            if (!$statement->execute()) {
-             throw new Exception($statement->error);
-            }
-            return $statement->insert_id;
+        if (!$statement->execute()) {
+            return '<script language="javascript">'.
+            'if(!alert("Diese Email wird schon verwendet!")){window.location.href ="/user";}'.
+            '</script>'; 
         }
+        return $statement->insert_id;
     }
 
     //Checks if LogIn Data is correct

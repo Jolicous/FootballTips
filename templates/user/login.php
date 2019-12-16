@@ -1,3 +1,4 @@
+<?php if(isset($message)){echo $message;} ?>
 <div class="row">
 	<form class="col-12 form-padding" method="post" action="/user/doLogin">
 		<label for="email">E-Mail</label>

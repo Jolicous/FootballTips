@@ -10,6 +10,8 @@ CREATE TABLE  user (
   PRIMARY KEY (id)
 );
 
+CREATE unique index user_email_uk ON user(email);
+
 CREATE TABLE league (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
