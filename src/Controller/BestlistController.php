@@ -53,6 +53,7 @@ class BestlistController
                         $user->punkte = $user->punkte + 1;
                     }
                     $userRepository->updateUserPoints($user->id, $user->punkte);
+                    $mytipsRepository->deleteById($tip->id);
                 }
             }
         }
