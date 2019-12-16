@@ -37,6 +37,7 @@ class UserController
 
     public function doCreate()
     {
+        $message = "";
         if (isset($_POST['send'])) {
             $firstName = htmlentities($_POST['fname']);
             $lastName = htmlentities($_POST['lname']);
@@ -44,12 +45,23 @@ class UserController
             $password = $_POST['password'];
 
             $userRepository = new UserRepository();
-            $userRepository->create($firstName, $lastName, $email, $password);
+            $message = $userRepository->create($firstName, $lastName, $email, $password);
         
         }
 
         // Anfrage an die URI /user weiterleiten (HTTP 302)
-        header('Location: /user');
+        if(strlen($message) > 10){
+            $view = new View('user/login');
+            $view->title = 'Anmelden';
+            $view->heading = 'Anmelden';
+            $view->message = $message;
+            $view->display();
+            $view = new View('user/create');
+            $view->title = 'Registrieren';
+            $view->heading = 'Registrieren';
+        }else{
+            header('Location: /user');
+        }
     }
 
     public function doLogin()
