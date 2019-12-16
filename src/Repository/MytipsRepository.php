@@ -7,6 +7,17 @@
     class MytipsRepository extends Repository
     {
         protected $tableName = 'tips';
+     
+        public function updateById($id, $homegoals, $awaygoals){
+            $query = "UPDATE {$this->tableName} SET homegoals=?, awaygoals=? WHERE id=?";
+            
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param('iii', $homegoals, $awaygoals, $id);
+    
+            if (!$statement->execute()) {
+                throw new Exception($statement->error);
+            }
+        }
 
         public function getTipsByUserId($benutzer_id){
             $query = "SELECT t.id as id, t.homegoals as homegoals, t.awaygoals as awaygoals, t1.name as hometeam, t2.name as awayteam FROM {$this->tableName} t
@@ -33,15 +44,13 @@
             return $rows;
         }
 
-        public function updateById($id, $homegoals, $awaygoals){
-            $query = "UPDATE {$this->tableName} SET homegoals=?, awaygoals=? WHERE id=?";
-            
+        public function createTip($userId, $begegnung_id, $homegoals, $awaygoals){
+            $query = "INSERT INTO tips (benutzer_id, begegnung_id, homegoals, awaygoals) VALUES (?,?,?,?)";
+
             $statement = ConnectionHandler::getConnection()->prepare($query);
-            $statement->bind_param('iii', $homegoals, $awaygoals, $id);
-    
-            if (!$statement->execute()) {
-                throw new Exception($statement->error);
-            }
+            $statement->bind_param('iiii', $userId, $begegnung_id, $homegoals, $awaygoals);
+
+            $statement->execute();
         }
     }
 ?>
