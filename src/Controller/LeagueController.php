@@ -11,6 +11,7 @@ use App\View\View;
 class LeagueController
 {
 
+    //gets all matches and prepares the whole view.
     public function openLeague()
     {
         session_start();
@@ -41,6 +42,7 @@ class LeagueController
         }
     }
 
+    //saves the tips from the user
     public function saveTips(){
         session_start();
         $encounterRepository = new EncounterRepository();
@@ -69,12 +71,14 @@ class LeagueController
         $view->display();
     }
 
+    //loads the table from the league
     private function loadTable($leagueId){
         $defaultRepository = new DefaultRepository();
 
         return $defaultRepository->readLeagueById($leagueId);
     }
 
+    //gets the league name
     private function getLeagueName($leagueId){
         $defaultRepository = new DefaultRepository();
 

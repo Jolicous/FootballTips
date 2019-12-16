@@ -10,6 +10,7 @@ use App\View\View;
  */
 class UserController
 {
+    //shows the right view depending if you're logged in or not
     public function index()
     {
         session_start ();
@@ -35,6 +36,7 @@ class UserController
         $view->display();
     }
 
+    //creates a user
     public function doCreate()
     {
         if (isset($_POST['send'])) {
@@ -52,6 +54,7 @@ class UserController
         header('Location: /user');
     }
 
+    //is the login for the website
     public function doLogin()
     {
         if (isset($_POST['send'])) {
@@ -64,6 +67,7 @@ class UserController
         
     }
 
+    //changes the user who is logged in
     public function doChange() {
         session_start();
         if (isset($_SESSION['id']) && isset($_POST['id']) && $_SESSION['id'] == $_POST['id'])
@@ -84,14 +88,14 @@ class UserController
             $this->doLogout();
         
     }
-
+    //is the logout 
     public function doLogout() {
         if (isset($_POST['logout'])) {
             $userRepository = new UserRepository();
             $userRepository->logout();
         }
     }
-
+    //deletes the user who is logged in
     public function doDelete(){
         if (isset($_POST['delete'])) {
             $userRepository = new UserRepository();
