@@ -13,12 +13,17 @@ class UserController
     public function index()
     {
         session_start ();
+        print_r($_SESSION);
         $userRepository = new UserRepository();
-        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
             $view = new View('user/change');
             $view->title = 'Bearbeiten';
             $view->heading = 'Bearbeiten';
-            $view->display();
+                echo "im isset";
+                $view->user = $userRepository->getUserInfosById($_SESSION['id']);
+                print_r($view->user);
+
+            
         } else {
             $view = new View('user/login');
             $view->title = 'Anmelden';
@@ -27,8 +32,9 @@ class UserController
             $view = new View('user/create');
             $view->title = 'Registrieren';
             $view->heading = 'Registrieren';
-            $view->display();
+            
         }
+        $view->display();
     }
 
     public function doCreate()
@@ -60,17 +66,32 @@ class UserController
         
     }
 
-    public function doLogout() {
-        $userRepository = new UserRepository();
-        $userRepository->logout();
+    public function doChange() {
+        session_start();
+        if (isset($_SESSION['id']) && isset($_POST['id']) && $_SESSION['id'] == $_POST['id'])
+        {
+            $id = $_POST['id'];
+            $userRepository = new UserRepository();
+            $userRepository->getUserInfosById($id);
+            if (isset($_POST['change'])) {
+                $firstName = $_POST['fname'];
+                $lastName = $_POST['lname'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                
+                $userRepository = new UserRepository();
+                $userRepository->change($firstName, $lastName, $email, $password);
+            }
+
+        }
+            $this->doLogout();
+        
     }
 
-    public function delete()
-    {
+    public function doLogout() {
+        if (isset($_POST['logout'])) {
         $userRepository = new UserRepository();
-        $userRepository->deleteById($_GET['id']);
-
-        // Anfrage an die URI /user weiterleiten (HTTP 302)
-        header('Location: /user');
+        $userRepository->logout();
+        }
     }
 }

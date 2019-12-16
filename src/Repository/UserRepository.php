@@ -35,15 +35,12 @@ class UserRepository extends Repository
     {
         $resetPoints = 0;
         $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
-        $emailCheck = "SELECT * FROM user WHERE email = ?";
-        $statement = ConnectionHandler::getConnection()->prepare($emailCheck);
-        $statement->bind_param("s", $email);
-        $statement->execute();
-        $result = $statement->get_result();
-
-        $res = mysqli_query(ConnectionHandler::getConnection(), $result);
+        $emailCheck = "SELECT * FROM user WHERE email = '$email'";
+        $res = mysqli_query(ConnectionHandler::getConnection(), $emailCheck);
         if(mysqli_num_rows($res) > 0) {
-            echo "sladfj";
+            echo '<script language="javascript">';
+            echo 'if(!alert("Diese Email wird schon verwendet!")){window.location.href ="/user";}';
+            echo '</script>'; 
         } else {
             $statement = ConnectionHandler::getConnection()->prepare($query);
             $statement->bind_param('ssssi', $firstName, $lastName, $email, $password, $resetPoints);
@@ -56,6 +53,7 @@ class UserRepository extends Repository
     }
 
     public function loginCheck($email, $password) {
+        session_start();
         $query = "SELECT id, email, password FROM user WHERE email = ? AND password = sha2(?, 256)";
         $email = $_POST ['email'];
         $password = $_POST ['password'];
@@ -67,16 +65,46 @@ class UserRepository extends Repository
         $result = $statement->get_result();
 
         if ($result->num_rows == 1) {
-	        $row = $result->fetch_object();
+            $row = $result->fetch_object();
+            $_SESSION['id'] = $row->id;
 	        $_SESSION['email'] = $row->email;
 	        $_SESSION['loggedin'] = true;
 	        header('Location: /');
         } else {
 	        echo '<script language="javascript">';
-            echo 'alert("E-Mail oder Passwort ist falsch.")';
-            echo '</script>';
-            
+            echo 'if(!alert("Email oder Passwort ist falsch!")){window.location.href ="/user";}';
+            echo '</script>';            
         }
+    }
+
+    public function change() {
+        $query = "UPDATE user SET firstname=?, lastname=?, email=?, password=sha2(?, 256) where id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param("ssss", $firstName, $lastName, $email, $password);
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+           }
+    }
+
+    public function getUserInfosById($id) {
+        $query = "SELECT * from user where id=?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param("i", $id);
+        $statement->execute();
+        
+        $result = $statement->get_result();
+         if (!$result) {
+              throw new Exception($statement->error);
+        }
+        $row = $result->fetch_object();
+
+        // Datenbankressourcen wieder freigeben
+        $result->close();
+
+        // Den gefundenen Datensatz zurückgeben
+        return $row;
+
     }
 
     public function logout() {
@@ -84,7 +112,9 @@ class UserRepository extends Repository
         unset($_SESSION['user']);
         unset($_SESSION ['loggedin']);
         session_destroy();
-        echo "You are logged out";
+            echo '<script language="javascript">';
+            echo 'if(!alert("Ausgeloggt")){window.location.href ="/user";}';
+            echo '</script>';   
     }
 
     
