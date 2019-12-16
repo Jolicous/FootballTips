@@ -23,11 +23,11 @@ class LeagueController
             $encounterRepository = new EncounterRepository();
 
             $view = new View('league/index');
-            $leagueId = $_POST['leagueId'];
+            $leagueId = $_GET['id'];
             $view->leagueId = $leagueId;
             $view->title = $this->getLeagueName($leagueId);
             $view->heading = $this->getLeagueName($leagueId);
-            $view->matches = $encounterRepository->getMatchesByLeagueDateAndUser($leagueId, date("Y-m-d"), 1);
+            $view->matches = $encounterRepository->getMatchesByLeagueDateAndUser($leagueId, date("Y-m-d"), $_SESSION['id']);
             $tips = array();
             foreach($view->matches as $match){
                 if(isset($match->homegoals) && isset($match->awaygoals)){
@@ -77,7 +77,7 @@ class LeagueController
 
     private function getLeagueName($leagueId){
         $defaultRepository = new DefaultRepository();
-        
+
         return $defaultRepository->readById($leagueId)->name;
     }
 }
