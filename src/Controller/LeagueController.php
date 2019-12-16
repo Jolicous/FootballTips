@@ -27,7 +27,6 @@ class LeagueController
             }
         }
         $view->table = $this->loadTable($leagueId);
-        $view->potentialTable = $this->loadPotentialTable($leagueId, $tips);
         $view->display();
     }
 
@@ -55,7 +54,6 @@ class LeagueController
             }
         }
         $view->table = $this->loadTable($leagueId);
-        $view->potentialTable = $this->loadPotentialTable($leagueId, $tips);
         $view->display();
     }
 
@@ -63,35 +61,6 @@ class LeagueController
         $defaultRepository = new DefaultRepository();
 
         return $defaultRepository->readLeagueById($leagueId);
-    }
-
-    private function loadPotentialTable($leagueId, $tips){
-        $table = $this->loadTable($leagueId);
-        foreach($tips as $tip){
-            // if($tip->homegoals > $tip->awaygoals){
-            //     $table[$tip->hometeam]->punkte = $table[$tip->hometeam]->punkte + 3;
-            //     $table[$tip->hometeam]->tore = $table[$tip->hometeam]->tore + $tip->homegoals;
-            //     $table[$tip->hometeam]->gegentore = $table[$tip->hometeam]->gegentore +  $tip->awaygoals;
-            //     $table[$tip->awayteam]->tore = $table[$tip->awayteam]->tore + $tip->awaygoals;
-            //     $table[$tip->awayteam]->gegentore = $table[$tip->awayteam]->gegentore +  $tip->homegoals;
-            // }else if($tip->homegoals < $tip->awaygoals){
-            //     $table[$tip->awayteam]->punkte = $table[$tip->awayteam]->punkte + 3;
-            //     $table[$tip->hometeam]->tore = $table[$tip->hometeam]->tore + $tip->homegoals;
-            //     $table[$tip->hometeam]->gegentore = $table[$tip->hometeam]->gegentore +  $tip->awaygoals;
-            //     $table[$tip->awayteam]->tore = $table[$tip->awayteam]->tore + $tip->awaygoals;
-            //     $table[$tip->awayteam]->gegentore = $table[$tip->awayteam]->gegentore +  $tip->homegoals;
-            // }else{
-            //     $table[$tip->hometeam]->punkte = $table[$tip->hometeam]->punkte + 1;
-            //     $table[$tip->awayteam]->punkte = $table[$tip->awayteam]->punkte + 1;
-            //     $table[$tip->hometeam]->tore = $table[$tip->hometeam]->tore + $tip->homegoals;
-            //     $table[$tip->hometeam]->gegentore = $table[$tip->hometeam]->gegentore +  $tip->awaygoals;
-            //     $table[$tip->awayteam]->tore = $table[$tip->awayteam]->tore + $tip->awaygoals;
-            //     $table[$tip->awayteam]->gegentore = $table[$tip->awayteam]->gegentore +  $tip->homegoals;
-            // }
-            echo $tip->hometeam;
-            echo $table['Manchester United'];
-        }
-        return $table;
     }
 
     private function getLeagueName($leagueId){
