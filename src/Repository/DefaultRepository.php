@@ -8,6 +8,7 @@
     {
         protected $tableName = 'league';  
 
+        //get league table by leagueid
         public function readLeagueById($leagueId){
             $query = "SELECT t.name AS name, lt.tore AS tore, lt.gegentore AS gegentore, lt.punkte AS punkte FROM {$this->tableName} l
             JOIN league_team lt ON lt.liga_id = l.id

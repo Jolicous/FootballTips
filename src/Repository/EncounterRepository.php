@@ -8,6 +8,7 @@
     {
         protected $tableName = 'encounter';
 
+        //get all matches from specific date range and join tipped result
         public function getMatchesByLeagueDateAndUser($leagueId, $currentDate, $userId){
             $query = "SELECT t.id AS id, t1.name AS hometeam, t2.name AS awayteam, t.homegoals AS homegoals, t.awaygoals AS awaygoals, e.id as begegnung_id FROM {$this->tableName} e
             JOIN team t1 ON t1.id = e.hometeam_id
@@ -34,6 +35,7 @@
             return $rows;
         }
 
+        //get all matches already played
         public function getEncountersAlreadyPlayed($date){
             $query = "SELECT * FROM {$this->tableName} WHERE datum < ?";
 

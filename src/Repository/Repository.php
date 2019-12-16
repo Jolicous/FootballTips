@@ -9,6 +9,7 @@ class Repository
 {
     protected $tableName = null;
 
+    //get specific entry
     public function readById($id)
     {
         $query = "SELECT * FROM {$this->tableName} WHERE id=?";
@@ -30,6 +31,7 @@ class Repository
         return $row;
     }
 
+    //get all entries
     public function readAll($max = 100)
     {
         $query = "SELECT * FROM {$this->tableName} LIMIT 0, $max";
@@ -50,6 +52,7 @@ class Repository
         return $rows;
     }
 
+    //delte specific entry
     public function deleteById($id)
     {
         $query = "DELETE FROM {$this->tableName} WHERE id=?";

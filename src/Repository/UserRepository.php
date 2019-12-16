@@ -10,6 +10,7 @@ class UserRepository extends Repository
 
     protected $tableName = 'user';
 
+    //Creates a new User
     public function create($firstName, $lastName, $email, $password)
     {
         $query = "INSERT INTO $this->tableName (firstName, lastName, email, password, punkte) VALUES (?, ?, ?, sha2(?, 256), ?)";
@@ -35,6 +36,7 @@ class UserRepository extends Repository
         }
     }
 
+    //Checks if LogIn Data is correct
     public function loginCheck($email, $password) {
         session_start();
         $query = "SELECT id, email, password FROM user WHERE email = ? AND password = sha2(?, 256)";
@@ -61,6 +63,7 @@ class UserRepository extends Repository
         }
     }
 
+    //Update the current user
     public function change($id, $firstName, $lastName, $email, $password) {
         $query = "UPDATE user SET firstname=?, lastname=?, email=?, password=sha2(?, 256) where id=?";
         $statement = ConnectionHandler::getConnection();
@@ -75,6 +78,7 @@ class UserRepository extends Repository
            }
     }
 
+    //Return User Information By Id
     public function getUserInfosById($id) {
         $query = "SELECT * from user where id=?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
@@ -93,6 +97,7 @@ class UserRepository extends Repository
 
     }
 
+    //Updates the points from user
     public function updateUserPoints($id, $points){
         $query = "UPDATE user SET punkte = ? WHERE id = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
