@@ -93,6 +93,17 @@ class UserRepository extends Repository
 
     }
 
+    public function updateUserPoints($id, $points){
+        $query = "UPDATE user SET punkte = ? WHERE id = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param("ii", $points, $id);
+        $statement->execute();
+
+        if (!$statement->execute()) {
+            throw new Exception($statement->error);
+        }
+    }
+
     public function logout() {
         session_start ();
         unset($_SESSION['user']);
