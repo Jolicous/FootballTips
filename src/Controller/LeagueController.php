@@ -12,23 +12,30 @@ class LeagueController
 
     public function openLeague()
     {
-        $encounterRepository = new EncounterRepository();
+        session_start();
+        if (!isset($_SESSION['loggedin']) && !$_SESSION['loggedin'] == 1) {
+            echo '<script language="javascript">';
+            echo 'if(!alert("Du musst dich zuerst einloggen!")){window.location.href ="/user";}';
+            echo '</script>'; 
+        } else {
+            $encounterRepository = new EncounterRepository();
 
-        $view = new View('league/index');
-        $leagueId = $_GET['id'];
-        $view->leagueId = $leagueId;
-        $view->title = $this->getLeagueName($leagueId);
-        $view->heading = $this->getLeagueName($leagueId);
-        $view->matches = $encounterRepository->getMatchesByLeagueDateAndUser($leagueId, date("Y-m-d"), 1);
-        $tips = array();
-        foreach($view->matches as $match){
-            if(isset($match->homegoals) && isset($match->awaygoals)){
-                $tips[] = $match;
+            $view = new View('league/index');
+            $leagueId = $_GET['id'];
+            $view->leagueId = $leagueId;
+            $view->title = $this->getLeagueName($leagueId);
+            $view->heading = $this->getLeagueName($leagueId);
+            $view->matches = $encounterRepository->getMatchesByLeagueDateAndUser($leagueId, date("Y-m-d"), 1);
+            $tips = array();
+            foreach($view->matches as $match){
+                if(isset($match->homegoals) && isset($match->awaygoals)){
+                    $tips[] = $match;
+                }
             }
+            $view->table = $this->loadTable($leagueId);
+            $view->potentialTable = $this->loadPotentialTable($leagueId, $tips);
+            $view->display();
         }
-        $view->table = $this->loadTable($leagueId);
-        $view->potentialTable = $this->loadPotentialTable($leagueId, $tips);
-        $view->display();
     }
 
     public function saveTips(){
