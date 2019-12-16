@@ -48,7 +48,7 @@ class MyTipsController
         $view = new View('mytips/index');
         $view->title = 'Meine Tipps';
         $view->heading = 'Meine Tipps';
-        $mytipsRepository->deleteById($view->tips[$_GET['index']]->id); 
+        $mytipsRepository->deleteById($view->tips[htmlentities($_GET['index'])]->id); 
         $this->loadTips($view);    
         $view->display();
     }

@@ -33,5 +33,26 @@
 
             return $rows;
         }
+
+        public function getEncountersAlreadyPlayed($date){
+            $query = "SELECT * FROM {$this->tableName} WHERE datum < ?";
+
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param('s', $date);
+
+            $statement->execute();
+
+            $result = $statement->get_result();
+            if (!$result) {
+                throw new Exception($statement->error);
+            }
+
+            $rows = array();
+            while ($row = $result->fetch_object()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
+        }
     }
 ?>

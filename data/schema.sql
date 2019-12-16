@@ -82,7 +82,8 @@ INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES
 INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES ((select id from league where name = "La Liga"), (select id from team where name = "Real Madrid"), 50, 10, 45);
 INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES ((select id from league where name = "La Liga"), (select id from team where name = "FC Barcelona"), 50, 10, 45);
 
-INSERT INTO encounter (hometeam_id, awayteam_id, datum) VALUES ((select id from team where name = "Manchester United"), (select id from team where name = "Manchester City"), '2019-12-10');
-INSERT INTO encounter (hometeam_id, awayteam_id, datum) VALUES ((select id from team where name = "FC Barcelona"), (select id from team where name = "Real Madrid"), '2019-12-11');
+INSERT INTO encounter (hometeam_id, awayteam_id, datum) VALUES ((select id from team where name = "Manchester United"), (select id from team where name = "Manchester City"), '2019-12-17');
+INSERT INTO encounter (hometeam_id, awayteam_id, datum, homegoals, awaygoals) VALUES ((select id from team where name = "FC Barcelona"), (select id from team where name = "Real Madrid"), '2019-12-11', 2, 1);
 
 INSERT INTO tips (benutzer_id, begegnung_id, homegoals, awaygoals) VALUES (1, 1, 3, 4);
+INSERT INTO tips (benutzer_id, begegnung_id, homegoals, awaygoals) VALUES (1, 2, 2, 1);
