@@ -43,11 +43,8 @@ class DefaultController
         //   "default_index" rendern. Wie das genau funktioniert, ist in der
         //   View Klasse beschrieben.
         session_start();
-        if (!isset($_SESSION['loggedin']) && !$_SESSION['loggedin'] == 1) {
-            echo '<script language="javascript">';
-            echo 'if(!alert("Du musst dich zuerst einloggen!")){window.location.href ="/user";}';
-            echo '</script>'; 
-            header('Location: /user');
+        if (!isset($_SESSION['loggedin']) && !$_SESSION['loggedin'] == 1) {               
+                header('Location: /user');
         } else {
             $view = new View('default/index');
             $view->title = 'Football Tips';
@@ -55,5 +52,6 @@ class DefaultController
             $view->leagues = $defaultRepository->readAll();
             $view->display();
         }
+        
     }
 }

@@ -21,7 +21,6 @@ class UserController
             $view->heading = 'Bearbeiten';
                 echo "im isset";
                 $view->user = $userRepository->getUserInfosById($_SESSION['id']);
-                print_r($view->user);
 
             
         } else {
