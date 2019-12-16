@@ -12,11 +12,18 @@ class MyTipsController
 
     public function index()
     {
-        $view = new View('mytips/index');
-        $this->loadTips($view);
-        $view->title = 'Meine Tipps';
-        $view->heading = 'Meine Tipps';
-        $view->display();
+        session_start();
+        if (!isset($_SESSION['loggedin']) && !$_SESSION['loggedin'] == 1) {
+            echo '<script language="javascript">';
+            echo 'if(!alert("Du musst dich zuerst einloggen!")){window.location.href ="/user";}';
+            echo '</script>'; 
+        } else {
+            $view = new View('mytips/index');
+            $this->loadTips($view);
+            $view->title = 'Meine Tipps';
+            $view->heading = 'Meine Tipps';
+            $view->display();
+        }
     }
 
     public function savetips(){
@@ -46,8 +53,11 @@ class MyTipsController
     }
 
     private function loadTips($view){
+        if (isset($_SESSION['id']) && isset($_POST['id']) && $_SESSION['id'] == $_POST['id']) {
+            $id = $_POST['id'];
+        }
         $mytipsRepository = new MytipsRepository();
 
-        $view->tips = $mytipsRepository->getTipsByUserId(1);
+        $view->tips = $mytipsRepository->getTipsByUserId($id);
     }
 }

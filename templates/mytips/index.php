@@ -6,6 +6,7 @@
             <p style="float: right"><?=$tip->hometeam;?></p>
         </div>
         <div class="col-2">
+            <input id="fname" name="id" type="hidden" value="<?=$user->id?>"> 	
             <input name="homegoals_<?=$tip->id;?>" style="width: 45%" type="number" value="<?=$tip->homegoals;?>"/>
             <span> : </span>
             <input name="awaygoals_<?=$tip->id;?>" style="width: 45%" type="number" value="<?=$tip->awaygoals;?>"/>
