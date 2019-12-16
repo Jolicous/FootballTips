@@ -19,7 +19,8 @@
 			<label class="control-label" for="password">Passwort</label>
 			<input id="password" name="password" type="password" class="form-control">
 		</div>
-		<button type="submit" name="change" class="btn btn-primary float-right">Ändern</button>
+		<button style="margin-left: 5px;"  type="submit" name="change" class="btn btn-primary float-right">Ändern</button>
+		<button style="margin-left: 5px;" type="submit" name="delete" class="btn btn-primary float-right">Löschen</button>
 		<button type="submit" name="logout" class="btn btn-primary float-right button-logout-margin">Logout</button>
 	</form>
 

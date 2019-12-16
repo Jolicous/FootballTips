@@ -46,7 +46,6 @@ CREATE TABLE encounter(
   homegoals int UNSIGNED,
   awaygoals int UNSIGNED,
   datum date not null,
-  round int not null,
   primary key (id),
   CONSTRAINT FK_encounter_hometeam FOREIGN KEY (hometeam_id)
   REFERENCES team (id),  
@@ -83,7 +82,7 @@ INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES
 INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES ((select id from league where name = "La Liga"), (select id from team where name = "Real Madrid"), 50, 10, 45);
 INSERT INTO league_team (liga_id, mannschaft_id, tore, gegentore, punkte) VALUES ((select id from league where name = "La Liga"), (select id from team where name = "FC Barcelona"), 50, 10, 45);
 
-INSERT INTO encounter (hometeam_id, awayteam_id, datum, round) VALUES ((select id from team where name = "Manchester United"), (select id from team where name = "Manchester City"), '2019-12-10', 1);
-INSERT INTO encounter (hometeam_id, awayteam_id, datum, round) VALUES ((select id from team where name = "FC Barcelona"), (select id from team where name = "Real Madrid"), '2019-12-11', 1);
+INSERT INTO encounter (hometeam_id, awayteam_id, datum) VALUES ((select id from team where name = "Manchester United"), (select id from team where name = "Manchester City"), '2019-12-10');
+INSERT INTO encounter (hometeam_id, awayteam_id, datum) VALUES ((select id from team where name = "FC Barcelona"), (select id from team where name = "Real Madrid"), '2019-12-11');
 
 INSERT INTO tips (benutzer_id, begegnung_id, homegoals, awaygoals) VALUES (1, 1, 3, 4);
