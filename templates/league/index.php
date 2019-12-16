@@ -1,5 +1,6 @@
 <form method="post" action="/league/saveTips">
 <input type="hidden" name="leagueId" value="<?=$leagueId;?>"/>
+<input id="fname" name="id" type="hidden" value="<?=$user->id?>"> 
 <?php foreach ($matches as $match): ?>
     <div class="row">
         <div class="col-5">
