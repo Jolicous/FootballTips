@@ -8,6 +8,7 @@
     {
         protected $tableName = 'tips';
      
+        //update tip and protect from sql injections
         public function updateById($id, $homegoals, $awaygoals){
             $query = "UPDATE {$this->tableName} SET homegoals=?, awaygoals=? WHERE id=?";
             
@@ -23,6 +24,7 @@
             }
         }
 
+        //get all tips by user
         public function getTipsByUserId($benutzer_id){
             $query = "SELECT t.id as id, t.homegoals as homegoals, t.awaygoals as awaygoals, t1.name as hometeam, t2.name as awayteam FROM {$this->tableName} t
             JOIN encounter e ON t.begegnung_id = e.id
@@ -48,6 +50,7 @@
             return $rows;
         }
 
+        //creates a new tip
         public function createTip($userId, $begegnung_id, $homegoals, $awaygoals){
             $query = "INSERT INTO tips (benutzer_id, begegnung_id, homegoals, awaygoals) VALUES (?,?,?,?)";
 
