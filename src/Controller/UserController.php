@@ -39,9 +39,9 @@ class UserController
     public function doCreate()
     {
         if (isset($_POST['send'])) {
-            $firstName = $_POST['fname'];
-            $lastName = $_POST['lname'];
-            $email = $_POST['email'];
+            $firstName = htmlentities($_POST['fname']);
+            $lastName = htmlentities($_POST['lname']);
+            $email = htmlentities($_POST['email']);
             $password = $_POST['password'];
 
             $userRepository = new UserRepository();
@@ -56,7 +56,7 @@ class UserController
     public function doLogin()
     {
         if (isset($_POST['send'])) {
-            $email = $_POST['email'];
+            $email = htmlentities($_POST['email']);
             $password = $_POST['password'];
                 
             $userRepository = new UserRepository();
@@ -71,14 +71,15 @@ class UserController
         {
             if (isset($_POST['change'])) {
                 $id = $_POST['id'];
-                $firstName = $_POST['fname'];
-                $lastName = $_POST['lname'];
-                $email = $_POST['email'];
+                $firstName = htmlentities($_POST['fname']);
+                $lastName = htmlentities($_POST['lname']);
+                $email = htmlentities($_POST['email']);
                 $password = $_POST['password'];
                 
                 $userRepository = new UserRepository();
                 $userRepository->change($id, $firstName, $lastName, $email, $password);
             }
+            $this->doDelete();
             header('Location: /user');
         }
             $this->doLogout();
@@ -87,8 +88,16 @@ class UserController
 
     public function doLogout() {
         if (isset($_POST['logout'])) {
-        $userRepository = new UserRepository();
-        $userRepository->logout();
+            $userRepository = new UserRepository();
+            $userRepository->logout();
+        }
+    }
+
+    public function doDelete(){
+        if (isset($_POST['delete'])) {
+            $userRepository = new UserRepository();
+            $userRepository->deleteById($_POST['id']);
+            $userRepository->logout();
         }
     }
 }
