@@ -20,12 +20,13 @@ class UserRepository extends Repository
             echo 'if(!alert("Diese Email wird schon verwendet!")){window.location.href ="/user";}';
             echo '</script>'; 
         } else {
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            $escapedFirstName = $x->escape_string($firstName);
-            $escapedLastName = $x->escape_string($lastName);
-            $escapedEmail = $x->escape_string($email);
-            $escapedPassword = $x->escape_string($password);
-            $statement->bind_param('ssssi', $escapedFirstName, $escapedLastName, $escapedEmail, $escapedPassword, 0);
+            $points = 0;
+            $statement = ConnectionHandler::getConnection();
+            $escapedFirstName = $statement->escape_string($firstName);
+            $escapedLastName = $statement->escape_string($lastName);
+            $escapedEmail = $statement->escape_string($email);
+            $statement = $statement->prepare($query);
+            $statement->bind_param('ssssi', $escapedFirstName, $escapedLastName, $escapedEmail, $password, $points);
 
             if (!$statement->execute()) {
              throw new Exception($statement->error);
@@ -37,10 +38,11 @@ class UserRepository extends Repository
     public function loginCheck($email, $password) {
         session_start();
         $query = "SELECT id, email, password FROM user WHERE email = ? AND password = sha2(?, 256)";
-        $email = $x->escape_string($_POST['email']);
-        $password = $_POST['password'];
 
-        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement = ConnectionHandler::getConnection();
+        $email = $statement->escape_string($_POST['email']);
+        $password = $_POST['password'];
+        $statement = $statement->prepare($query);
         $statement->bind_param("ss", $email, $password);
 
         $statement->execute();
@@ -61,8 +63,12 @@ class UserRepository extends Repository
 
     public function change($id, $firstName, $lastName, $email, $password) {
         $query = "UPDATE user SET firstname=?, lastname=?, email=?, password=sha2(?, 256) where id=?";
-        $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param("ssssi", $firstName, $lastName, $email, $password, $id);
+        $statement = ConnectionHandler::getConnection();
+        $escapedFirstName = $statement->escape_string($firstName);
+        $escapedLastName = $statement->escape_string($lastName);
+        $escapedEmail = $statement->escape_string($email);
+        $statement = $statement->prepare($query);
+        $statement->bind_param("ssssi", $escapedFirstName, $escapedLastName, $escapedEmail, $password, $id);
 
         if (!$statement->execute()) {
             throw new Exception($statement->error);

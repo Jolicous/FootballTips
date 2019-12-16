@@ -33,7 +33,6 @@ class LeagueController
                 }
             }
             $view->table = $this->loadTable($leagueId);
-            $view->potentialTable = $this->loadPotentialTable($leagueId, $tips);
             $view->display();
         }
     }
