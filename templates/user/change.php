@@ -20,7 +20,6 @@
 			<input id="password" name="password" type="password" class="form-control">
 		</div>
 		<button type="submit" name="change" class="btn btn-primary float-right">Ändern</button>
-		<button type="submit" name="id" class="btn btn-primary float-right button-logout-margin">Löschen</button>
 		<button type="submit" name="logout" class="btn btn-primary float-right button-logout-margin">Logout</button>
 	</form>
 
