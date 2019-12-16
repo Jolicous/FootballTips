@@ -11,8 +11,12 @@
         public function updateById($id, $homegoals, $awaygoals){
             $query = "UPDATE {$this->tableName} SET homegoals=?, awaygoals=? WHERE id=?";
             
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            $statement->bind_param('iii', $homegoals, $awaygoals, $id);
+            $statement = ConnectionHandler::getConnection();
+            $escapedHomegoals = $statement->escape_string($homegoals);
+            $escapedAwaygoals = $statement->escape_string($awaygoals);
+            $escapedId = $statement->escape_string($id);
+            $statement = $statement->prepare($query);
+            $statement->bind_param('iii', $escapedHomegoals, $escapedAwaygoals, $escapedId);
     
             if (!$statement->execute()) {
                 throw new Exception($statement->error);
