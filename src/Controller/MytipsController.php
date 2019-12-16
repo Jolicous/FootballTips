@@ -16,16 +16,16 @@ class MyTipsController
     {
         session_start();
         print_r($_SESSION);
-        if (!isset($_SESSION['loggedin']) && !$_SESSION['loggedin'] == 1) {
-            echo '<script language="javascript">';
-            echo 'if(!alert("Du musst dich zuerst einloggen!")){window.location.href ="/user";}';
-            echo '</script>'; 
-        } else {
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
             $view = new View('mytips/index');
             $this->loadTips($view);
             $view->title = 'Meine Tipps';
             $view->heading = 'Meine Tipps';
             $view->display();
+        } else {
+            echo '<script language="javascript">';
+            echo 'if(!alert("Du musst dich zuerst einloggen!")){window.location.href ="/user";}';
+            echo '</script>'; 
         }
     }
 
